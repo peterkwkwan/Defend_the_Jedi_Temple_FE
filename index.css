@@ -2,3 +2,13 @@ body {
     background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url(./assets/death_star.jpeg) no-repeat center center fixed;
     background-size: cover;
 }
+
+#container {
+    max-width: 1400px;
+    margin: auto;
+}
+
+#my-canvas {
+    background: #000;
+    border: 1px solid #FFF;
+}

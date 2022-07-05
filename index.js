@@ -1,25 +1,35 @@
-let canvas;
-let ctx;
-let canvasWidth;
-let canvasHeight;
 let stormtroopers = [];
 let sithLords = [];
-let yoda = document.querySelector("#yoda");
+let yoda = document.querySelector(".yoda");
+let container = document.querySelector("#container");
+let maxWidth = parseInt(
+  window.getComputedStyle(container).getPropertyValue("width")
+);
 let yodaLeft = parseInt(window.getComputedStyle(yoda).getPropertyValue("left"));
 let score = 0;
 
 const moveYodaLeft = () => {
-  yodaLeft -= 10;
-  yoda.style.left = yodaLeft + "px";
+  if (yodaLeft > 0) {
+    yodaLeft -= 20;
+    yoda.style.left = yodaLeft + "px";
+  }
 };
 const moveYodaRight = () => {
-  yodaLeft += 10;
-  yoda.style.left = yodaLeft + "px";
+  const widthOfYoda = 200;
+  if (yodaLeft < maxWidth - widthOfYoda) {
+    yodaLeft += 20;
+    yoda.style.left = yodaLeft + "px";
+  }
 };
 
-document.body.addEventListener("keydown", (e) => {
-  keys[e.keyCode] = true;
-});
-document.body.addEventListener("keyup", (e) => {
-  keys[e.keyCode] = false;
-});
+const handleKeyPress = (e) => {
+  console.log(yodaLeft);
+  if (e.key === "ArrowLeft") {
+    moveYodaLeft();
+  }
+  if (e.key === "ArrowRight") {
+    moveYodaRight();
+  }
+};
+
+document.addEventListener("keydown", handleKeyPress);

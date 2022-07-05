@@ -33,3 +33,32 @@ function SetupCanvas() {
 }
 
 class Jedi {}
+
+function Render() {
+  jedi.movingLeft = keys[37];
+  jedi.movingRight = keys[39];
+
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+  ctx.fillStyle = "white";
+  ctx.font = "21px Arial";
+  ctx.fillText(`SCORE: ${score.toString()}`, 20, 35);
+
+  ship.Update();
+  ship.Draw();
+
+  if (stormtroopers.length > 0) {
+    for (let i = 0; i < bullets.length; i++) {
+      bullets[i].Update();
+      bullets[i].Draw();
+    }
+  }
+  if (sithLords.length > 0) {
+    for (let i = 0; i < asteroids.length; i++) {
+      asteroids[i].Update();
+      asteroids[i].Draw();
+    }
+  }
+
+  requestAnimationFrame(Render);
+}

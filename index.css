@@ -15,6 +15,12 @@ body {
   position: relative;
 }
 
+.stormtroopers_spawn {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
 .yoda {
   width: 200px;
   position: absolute;

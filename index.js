@@ -16,6 +16,7 @@ let gameContainerWidth;
 // handling game state
 const initializeGameState = () => {
   menu.style.display = "none";
+  let timeRemaining = 60;
 
   gameContainer.style.display = "block";
   gameContainerHeight = parseInt(
@@ -33,9 +34,14 @@ const initializeGameState = () => {
     spawnSithLord(enemyId);
   }, 1000);
 
-  setTimeout(() => {
-    endGame();
-  }, 500);
+  const currentTimeElement = document.getElementById("current_time");
+  setInterval(() => {
+    if (timeRemaining === 0) {
+      endGame();
+    }
+    timeRemaining--;
+    currentTimeElement.innerHTML = timeRemaining;
+  }, 1000);
 };
 
 const endGame = () => {

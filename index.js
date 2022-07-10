@@ -9,6 +9,7 @@ const menu = document.querySelector("#menu");
 let score = 0;
 const scoreElement = document.querySelector("#current_score");
 const gameContainer = document.querySelector("#game_container");
+const gameEndContainer = document.querySelector("#game_end");
 let gameContainerHeight;
 let gameContainerWidth;
 
@@ -33,8 +34,17 @@ const initializeGameState = () => {
   }, 1000);
 
   setTimeout(() => {
-    alert("game over!");
-  }, 5000);
+    endGame();
+  }, 500);
+};
+
+const endGame = () => {
+  gameContainer.remove();
+  gameEndContainer.style.display = "flex";
+  const displayScoreElement = document.getElementById("game_end_score");
+  displayScoreElement.innerHTML = score;
+  const inputScore = document.querySelector("#game_end input");
+  inputScore.focus();
 };
 
 const startButton = document.getElementById("start_game_btn");
@@ -100,7 +110,6 @@ const spawnStormtrooper = (id) => {
       clearInterval(stormtrooperInterval);
       score += 50;
       scoreElement.innerHTML = score;
-      console.log(score);
     }
     if (stormtrooperTop > gameContainerHeight) {
       const stormtrooperToDespawn = document.getElementById(
@@ -157,7 +166,6 @@ const spawnSithLord = (id) => {
       clearInterval(sithLordInterval);
       score += 100;
       scoreElement.innerHTML = score;
-      console.log(score);
     }
     if (sithLordTop > gameContainerHeight) {
       const sithLordToDespawn = document.getElementById(`sithLord_${id}`);

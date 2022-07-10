@@ -37,14 +37,32 @@ body {
   position: relative;
 }
 
+.time,
 .score {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
-  right: 60px;
   color: #fff;
 }
 
-#current_score {
+.time {
+  left: 20px;
+}
+
+.score {
+  right: 20px;
+}
+
+.score > p,
+.time > p {
+  margin: 12px 0 0 0;
+}
+
+#current_score,
+#current_time {
   font-size: 2em;
   font-weight: 600;
 }

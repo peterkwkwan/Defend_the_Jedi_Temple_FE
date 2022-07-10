@@ -1,26 +1,30 @@
-const sithLords = [];
-const stormtroopers = [];
-const stormtroopers_spawn = document.querySelector(".stormtroopers_spawn");
+const score = 0;
+const gameStarted = false;
 
 const yoda = document.querySelector(".yoda");
 const widthOfYoda = 200;
-
-const container = document.querySelector("#container");
-const maxWidth = parseInt(
-  window.getComputedStyle(container).getPropertyValue("width")
-);
 let yodaLeft = parseInt(window.getComputedStyle(yoda).getPropertyValue("left"));
-const score = 0;
 
+const stormtroopers_spawn = document.querySelector(".stormtroopers_spawn");
+
+const gameContainer = document.querySelector("#game_container");
+const gameContainerHeight = parseInt(
+  window.getComputedStyle(gameContainer).getPropertyValue("height")
+);
+const gameContainerWidth = parseInt(
+  window.getComputedStyle(gameContainer).getPropertyValue("width")
+);
+
+// handling player movement
 const moveYodaLeft = () => {
   if (yodaLeft > 0) {
-    yodaLeft -= 15;
+    yodaLeft -= 35;
     yoda.style.left = `${yodaLeft}px`;
   }
 };
 const moveYodaRight = () => {
-  if (yodaLeft < maxWidth - widthOfYoda) {
-    yodaLeft += 15;
+  if (yodaLeft < gameContainerWidth - widthOfYoda) {
+    yodaLeft += 35;
     yoda.style.left = `${yodaLeft}px`;
   }
 };
@@ -34,26 +38,44 @@ const handleKeyPress = (e) => {
   }
 };
 
-const spawnStormtrooper = () => {
-  let stormtrooperBottom = 140;
-  const stormtrooperLeft = Math.floor(Math.random() * (maxWidth - widthOfYoda));
+// spawning stormtroopers
+let stormtrooperId = 0;
+
+const spawnStormtrooper = (id) => {
+  const stormtrooperWidth = 100;
+  let stormtrooperTop = 0;
+  const stormtrooperLeft = Math.floor(
+    Math.random() * (gameContainerWidth - stormtrooperWidth)
+  );
   let stormtrooper = document.createElement("img");
   stormtrooper.setAttribute("src", "./assets/stormtrooper.svg");
-  stormtrooper.setAttribute("width", "100px");
-  stormtrooper.style.position = "relative";
+  stormtrooper.setAttribute("width", `${stormtrooperWidth}px`);
+  stormtrooper.setAttribute("id", `stormtrooper_${stormtrooperId}`);
+  stormtrooper.setAttribute("top", stormtrooperTop);
+  stormtrooper.style.position = "absolute";
+  stormtrooperId++;
 
   stormtroopers_spawn.appendChild(stormtrooper);
 
   const stormtrooperFall = () => {
-    stormtrooperBottom -= 5;
-    stormtrooper.style.bottom = `${stormtrooperBottom}px`;
+    stormtrooperTop += 3;
+    stormtrooper.style.top = `${stormtrooperTop}px`;
+    if (stormtrooperTop > gameContainerHeight) {
+      const stormtrooperToDespawn = document.getElementById(
+        `stormtrooper_${id}`
+      );
+      if (stormtrooperToDespawn) {
+        stormtroopers_spawn.removeChild(stormtrooperToDespawn);
+      }
+    }
   };
   stormtrooper.style.left = `${stormtrooperLeft}px`;
 
   setInterval(stormtrooperFall, 20);
-  setTimeout(spawnStormtrooper, 2000);
+  setTimeout(() => spawnStormtrooper(stormtrooperId), 2000);
 };
 
-spawnStormtrooper();
-
-document.addEventListener("keydown", handleKeyPress);
+const startGame = () => {
+  document.addEventListener("keydown", handleKeyPress);
+  spawnStormtrooper(stormtrooperId);
+};

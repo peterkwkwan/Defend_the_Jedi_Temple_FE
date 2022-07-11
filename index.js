@@ -146,8 +146,10 @@ const spawnSithLord = (id) => {
   const sithLordLeft = Math.floor(
     Math.random() * (gameContainerWidth - sithLordWidth)
   );
+
+  let randomNum = Math.ceil(Math.random() * 4);
   let sithLord = document.createElement("img");
-  sithLord.setAttribute("src", "./assets/sithLord.svg");
+  sithLord.setAttribute("src", `./assets/sithLord${randomNum}.svg`);
   sithLord.setAttribute("width", `${sithLordWidth}px`);
   sithLord.setAttribute("id", `sithLord_${enemyId}`);
   sithLord.setAttribute("top", sithLordTop);

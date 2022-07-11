@@ -3,6 +3,7 @@ const API_ENDPOINT = "http://localhost:3000/leaderboard";
 
 const leaderboardList = [];
 let score = 0;
+let gameStarted = false;
 
 let yoda;
 let yodaLeft;
@@ -20,11 +21,6 @@ let gameContainerHeight;
 let gameContainerWidth;
 
 // leaderboard
-const viewLeaderboard = () => {
-  menuContainer.style.display = "none";
-  leaderboardContainer.style.display = "flex";
-};
-
 const renderLeaderboard = () => {
   const maxRankingsToShow = 10;
   const rankingListElement = document.getElementById("leaderboard_ranking");
@@ -43,30 +39,35 @@ const renderLeaderboard = () => {
   });
 };
 
-fetch(API_ENDPOINT)
-  .then((response) => response.json())
-  .then((parsedResponse) => {
-    const sortedRankings = parsedResponse.data.sort((a, b) => {
-      if (a.score < b.score) {
-        return 1;
-      }
-      if (b.score < a.score) {
-        return -1;
-      }
-      return 0;
+const viewLeaderboard = () => {
+  menuContainer.style.display = "none";
+  leaderboardContainer.style.display = "flex";
+  fetch(API_ENDPOINT)
+    .then((response) => response.json())
+    .then((parsedResponse) => {
+      const sortedRankings = parsedResponse.data.sort((a, b) => {
+        if (a.score < b.score) {
+          return 1;
+        }
+        if (b.score < a.score) {
+          return -1;
+        }
+        return 0;
+      });
+      leaderboardList.push(...sortedRankings);
+      renderLeaderboard();
     });
-    leaderboardList.push(...sortedRankings);
-    renderLeaderboard();
-  });
+};
 
 const goBackToMenu = () => {
   menuContainer.style.display = "flex";
   leaderboardContainer.style.display = "none";
 };
 
-// handling game state
+// starting game
 const initializeGameState = () => {
   menuContainer.style.display = "none";
+  gameStarted = true;
   let timeRemaining = 5;
 
   gameContainer.style.display = "block";
@@ -95,20 +96,46 @@ const initializeGameState = () => {
   }, 1000);
 };
 
+// submitting scores
+
+const postRanking = async (data) => {
+  console.log(data);
+  const response = await fetch(API_ENDPOINT, {
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  return response.json();
+};
+
 const endGame = () => {
+  gameStarted = false;
+  const displayScoreElement = document.getElementById("game_end_score");
+  const inputNameElement = document.querySelector("#game_end input");
+  const submitButton = document.getElementById("submit_score");
+
   gameContainer.remove();
   gameEndContainer.style.display = "flex";
-  const displayScoreElement = document.getElementById("game_end_score");
   displayScoreElement.innerHTML = score;
-  const inputScore = document.querySelector("#game_end input");
-  inputScore.focus();
+  inputNameElement.focus();
+  submitButton
+    .addEventListener("click", () =>
+      postRanking({ name: inputNameElement.value, score: score })
+    )
+    .then((data) => {
+      console.log(data);
+    });
+
   if (score <= 0) {
     const resultElement = document.getElementById("game_end_result");
     const promotionElement = document.getElementById("game_end_promotion");
-    const submitElement = document.getElementById("submit_score");
     resultElement.innerHTML = "oh no! The Jedi Council was defeated!";
     promotionElement.innerHTML = "You are still a Jedi Padawan...";
-    submitElement.innerHTML = "Submit";
+    submitButton.innerHTML = "Submit";
   }
 };
 
@@ -147,6 +174,9 @@ document.addEventListener("keydown", handleKeyPress);
 
 // spawning stormtroopers
 const spawnStormtrooper = (id) => {
+  let stormtrooperInterval;
+  let stormtrooperTimeout;
+
   const sithLordWidth = 100;
   let stormtrooperTop = 0;
   const stormtrooperLeft = Math.floor(
@@ -163,6 +193,12 @@ const spawnStormtrooper = (id) => {
   enemy_spawn.appendChild(stormtrooper);
 
   const stormtrooperFall = () => {
+    if (!gameStarted) {
+      clearInterval(stormtrooperInterval);
+      clearTimeout(stormtrooperTimeout);
+      return;
+    }
+
     stormtrooperTop += 3;
     stormtrooper.style.top = `${stormtrooperTop}px`;
 
@@ -196,15 +232,17 @@ const spawnStormtrooper = (id) => {
 
   stormtrooper.style.left = `${stormtrooperLeft}px`;
 
-  const stormtrooperInterval = setInterval(stormtrooperFall, 20);
-  const stormtrooperTimeout = setTimeout(
-    () => spawnStormtrooper(enemyId),
-    2000
-  );
+  if (gameStarted) {
+    stormtrooperInterval = setInterval(stormtrooperFall, 20);
+    stormtrooperTimeout = setTimeout(() => spawnStormtrooper(enemyId), 2000);
+  }
 };
 
 // spawning sithlords
 const spawnSithLord = (id) => {
+  let sithLordInterval;
+  let sithLordTimeout;
+
   const sithLordWidth = 100;
   let sithLordTop = 0;
   const sithLordLeft = Math.floor(
@@ -223,6 +261,12 @@ const spawnSithLord = (id) => {
   enemy_spawn.appendChild(sithLord);
 
   const sithLordFall = () => {
+    if (!gameStarted) {
+      clearInterval(sithLordInterval);
+      clearTimeout(sithLordTimeout);
+      return;
+    }
+
     sithLordTop += 3;
     sithLord.style.top = `${sithLordTop}px`;
 
@@ -252,6 +296,8 @@ const spawnSithLord = (id) => {
 
   sithLord.style.left = `${sithLordLeft}px`;
 
-  const sithLordInterval = setInterval(sithLordFall, 20);
-  const sithLordTimeout = setTimeout(() => spawnSithLord(enemyId), 3500);
+  if (gameStarted) {
+    sithLordInterval = setInterval(sithLordFall, 20);
+    sithLordTimeout = setTimeout(() => spawnSithLord(enemyId), 3500);
+  }
 };

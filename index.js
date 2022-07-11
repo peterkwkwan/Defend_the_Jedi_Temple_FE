@@ -1,3 +1,9 @@
+// const API_ENDPOINT = "http://localhost:3000/leaderboard";
+const API_ENDPOINT = "http://localhost:3000/leaderboard";
+
+const leaderboardList = [];
+let score = 0;
+
 let yoda;
 let yodaLeft;
 const widthOfYoda = 200;
@@ -5,17 +11,62 @@ const widthOfYoda = 200;
 let enemyId = 0;
 const enemy_spawn = document.querySelector(".enemy_spawn");
 
-const menu = document.querySelector("#menu");
-let score = 0;
+const menuContainer = document.querySelector("#menu");
 const scoreElement = document.querySelector("#current_score");
+const leaderboardContainer = document.querySelector("#leaderboard");
 const gameContainer = document.querySelector("#game_container");
 const gameEndContainer = document.querySelector("#game_end");
 let gameContainerHeight;
 let gameContainerWidth;
 
+// leaderboard
+const viewLeaderboard = () => {
+  menuContainer.style.display = "none";
+  leaderboardContainer.style.display = "flex";
+};
+
+const renderLeaderboard = () => {
+  const maxRankingsToShow = 10;
+  const rankingListElement = document.getElementById("leaderboard_ranking");
+  leaderboardList.forEach((item, idx) => {
+    if (idx > maxRankingsToShow) return;
+
+    const row = document.createElement("li");
+    const scoreElement = document.createElement("span");
+    row.style.width = "500px";
+    row.style.display = "flex";
+    row.style.justifyContent = "space-between";
+    row.innerHTML = `${idx + 1}. ${item.name.toLowerCase()}`;
+    row.appendChild(scoreElement);
+    scoreElement.innerHTML = item.score;
+    rankingListElement.appendChild(row);
+  });
+};
+
+fetch(API_ENDPOINT)
+  .then((response) => response.json())
+  .then((parsedResponse) => {
+    const sortedRankings = parsedResponse.data.sort((a, b) => {
+      if (a.score < b.score) {
+        return 1;
+      }
+      if (b.score < a.score) {
+        return -1;
+      }
+      return 0;
+    });
+    leaderboardList.push(...sortedRankings);
+    renderLeaderboard();
+  });
+
+const goBackToMenu = () => {
+  menuContainer.style.display = "flex";
+  leaderboardContainer.style.display = "none";
+};
+
 // handling game state
 const initializeGameState = () => {
-  menu.style.display = "none";
+  menuContainer.style.display = "none";
   let timeRemaining = 5;
 
   gameContainer.style.display = "block";
@@ -61,8 +112,13 @@ const endGame = () => {
   }
 };
 
+// button listeners
 const startButton = document.getElementById("start_game_btn");
+const leaderboardButton = document.getElementById("leaderboard_btn");
+const backToMenuButton = document.getElementById("back_to_menu");
 startButton.addEventListener("click", initializeGameState);
+leaderboardButton.addEventListener("click", viewLeaderboard);
+backToMenuButton.addEventListener("click", goBackToMenu);
 
 // handling player movement
 const moveYodaLeft = () => {

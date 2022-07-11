@@ -16,6 +16,12 @@ body {
   font-weight: 400;
 }
 
+#leaderboard,
+#game_container,
+#game_end {
+  display: none;
+}
+
 #menu {
   flex-direction: column;
   color: #fff;
@@ -69,6 +75,13 @@ button {
 button:hover {
   background: #fff;
   color: #000;
+}
+
+#leaderboard {
+  color: #fff;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
 }
 
 #game_container {

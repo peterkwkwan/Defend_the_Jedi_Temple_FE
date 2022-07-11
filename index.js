@@ -16,7 +16,7 @@ let gameContainerWidth;
 // handling game state
 const initializeGameState = () => {
   menu.style.display = "none";
-  let timeRemaining = 60;
+  let timeRemaining = 5;
 
   gameContainer.style.display = "block";
   gameContainerHeight = parseInt(
@@ -51,6 +51,14 @@ const endGame = () => {
   displayScoreElement.innerHTML = score;
   const inputScore = document.querySelector("#game_end input");
   inputScore.focus();
+  if (score <= 0) {
+    const resultElement = document.getElementById("game_end_result");
+    const promotionElement = document.getElementById("game_end_promotion");
+    const submitElement = document.getElementById("submit_score");
+    resultElement.innerHTML = "oh no! The Jedi Council was defeated!";
+    promotionElement.innerHTML = "You are still a Jedi Padawan...";
+    submitElement.innerHTML = "Submit";
+  }
 };
 
 const startButton = document.getElementById("start_game_btn");
@@ -172,7 +180,7 @@ const spawnSithLord = (id) => {
 
       enemy_spawn.removeChild(sithLordToDespawn);
       clearInterval(sithLordInterval);
-      score += 100;
+      score -= 100;
       scoreElement.innerHTML = score;
     }
     if (sithLordTop > gameContainerHeight) {

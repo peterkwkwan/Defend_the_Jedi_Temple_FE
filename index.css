@@ -127,6 +127,11 @@ button:hover {
   color: white;
   border: none;
   border-bottom: 1px solid white;
-  font-size: 40px;
+  font-size: 2em;
   outline: none;
+}
+
+#game_end_result,
+#game_end_promotion {
+  font-size: 2em;
 }

@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "StarJedi";
+  src: url("./assets/Starjedi.ttf"); /* IE9 Compat Modes */
+}
+
 body {
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url(./assets/death_star.jpeg) no-repeat center center fixed;
@@ -7,16 +12,51 @@ body {
   height: 100vh;
   display: flex;
   justify-content: center;
-  font-family: sans-serif;
+  font-family: StarJedi;
+  font-weight: 400;
 }
 
 #menu {
+  flex-direction: column;
+  color: #fff;
+}
+
+#menu h1 {
+  font-size: 3em;
+  font-family: StarJedi;
+  margin-bottom: 20px;
+}
+
+#menu h2 {
+  font-size: 1.5em;
+  margin: 60px 0 0 0;
+}
+
+#menu,
+.flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#menu > button {
+.instructions {
+  margin: 12px;
+  max-width: 300px;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.instructions p {
+  margin: 4px;
+}
+
+.instructions img {
+  width: 100px;
+  height: 100px;
+}
+
+button {
   color: #fff;
   background: transparent;
   border: 1px solid #fff;
@@ -26,7 +66,7 @@ body {
   font-weight: 600;
 }
 
-#menu > button:hover {
+button:hover {
   background: #fff;
   color: #000;
 }
@@ -61,12 +101,6 @@ body {
   margin: 12px 0 0 0;
 }
 
-#current_score,
-#current_time {
-  font-size: 2em;
-  font-weight: 600;
-}
-
 .stormtroopers_spawn {
   height: 100%;
   width: 100%;
@@ -85,7 +119,6 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-transform: uppercase;
 }
 
 #game_end > input,

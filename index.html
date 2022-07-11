@@ -1,38 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Defend the Jedi Temple!</title>
-    <link rel="stylesheet" type="text/css" href="index.css">
-</head>
-<body>
-
+    <link rel="stylesheet" type="text/css" href="index.css" />
+  </head>
+  <body>
     <div id="menu">
+      <h1>Defend the Jedi Temple</h1>
+      <div class="flex-center">
         <button id="start_game_btn" type="button">START</button>
         <button id="leaderboard_btn" type="button">LEADERBOARD</button>
-    </div>
-
-    <div id="game_container" style="display:none">
-        <div class="time">
-            <p>TIME</p><p id="current_time">60</p>
+      </div>
+      <div class="flex-center" style="flex-direction: column">
+        <h2>How to play</h2>
+        <div class="flex-center">
+          <div class="instructions">
+            <p>use Arrow keys to move Baby Yoda and catch the enemies</p>
+            <img src="./assets/baby_yoda.svg" />
+          </div>
+          <div class="instructions">
+            <p>Stormtroopers are worth 50 points</p>
+            <img src="./assets/stormtrooper.svg" />
+          </div>
+          <div class="instructions">
+            <p>Sith Lords are worth 100 points</p>
+            <img src="./assets/sithLord.svg" />
+          </div>
         </div>
-        <div class="score">
-            <p>SCORE</p><p id="current_score">0</p>
-        </div>
-        <div class="enemy_spawn"></div>
-        <img class="yoda" src="./assets/baby_yoda.svg" alt="baby_yoda"/>
+      </div>
     </div>
 
-    <div id="game_end" style="display:none">
-        <h2>You defended the Jedi Temple</h2>
-        <h3 style="margin: 12px 0 4px 0">Score</h3>
-        <h1 style="margin: 4px 0 12px 0; font-size: 60px" id="game_end_score">0</h1>
-        <h3>We grant you the rank of jedi master</h3><input type="text"/>
+    <div id="game_container" style="display: none">
+      <div class="time">
+        <p>Time</p>
+        <p id="current_time">60</p>
+      </div>
+      <div class="score">
+        <p>Score</p>
+        <p id="current_score">0</p>
+      </div>
+      <div class="enemy_spawn"></div>
+      <img class="yoda" src="./assets/baby_yoda.svg" alt="baby_yoda" />
     </div>
 
+    <div id="game_end" style="display: none">
+      <h2>You defended the Jedi Temple</h2>
+      <h3 style="margin: 12px 0 4px 0">Score</h3>
+      <h1 style="margin: 4px 0 12px 0; font-size: 60px" id="game_end_score">
+        0
+      </h1>
+      <h3>We grant you the rank of jedi master</h3>
+      <input type="text" />
+      <button id="submit_score" type="button" style="margin-top: 24px">
+        PROMOTE ME
+      </button>
+    </div>
 
     <script src="index.js"></script>
-</body>
+  </body>
 </html>

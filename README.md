@@ -22,4 +22,6 @@ const API_ENDPOINT = "http://localhost:3000/leaderboard";
 
 ### Tech stack
 
-Raw HTML CSS and JS
+- HTML
+- CSS 
+- JavaScript

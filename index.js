@@ -1,5 +1,5 @@
+const API_ENDPOINT = "https://defend-jedi-temple-be.herokuapp.com/leaderboard";
 // const API_ENDPOINT = "http://localhost:3000/leaderboard";
-const API_ENDPOINT = "http://localhost:3000/leaderboard";
 
 let leaderboardList = [];
 let score = 0;
@@ -69,7 +69,7 @@ const goBackToMenu = () => {
 const initializeGameState = () => {
   menuContainer.style.display = "none";
   gameStarted = true;
-  let timeRemaining = 60;
+  let timeRemaining = 3;
 
   gameContainer.style.display = "block";
   gameContainerHeight = parseInt(

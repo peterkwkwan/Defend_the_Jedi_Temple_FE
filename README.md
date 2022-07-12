@@ -19,3 +19,7 @@ This app is hosted on Netlify here: [Defend the Jedi Temple](https://defend-jedi
 
 const API_ENDPOINT = "http://localhost:3000/leaderboard";
 ```
+
+### Tech stack
+
+Raw HTML CSS and JS

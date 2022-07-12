@@ -69,7 +69,7 @@ const goBackToMenu = () => {
 const initializeGameState = () => {
   menuContainer.style.display = "none";
   gameStarted = true;
-  let timeRemaining = 3;
+  let timeRemaining = 60;
 
   gameContainer.style.display = "block";
   gameContainerHeight = parseInt(

@@ -33,14 +33,20 @@ const submitButton = document.getElementById("submit_score");
 const renderLeaderboard = () => {
   const maxRankingsToShow = 10;
   leaderboardList.forEach((item, idx) => {
+    let formattedName = item.name.toLowerCase();
     if (idx > maxRankingsToShow) return;
+
+    if (item.name.length > 20) {
+      formattedName = `${formattedName.substring(0, 20)}...`;
+    }
 
     const row = document.createElement("li");
     const scoreElement = document.createElement("span");
     row.style.width = "500px";
     row.style.display = "flex";
+    row.style.margin = "12px 0";
     row.style.justifyContent = "space-between";
-    row.innerHTML = `${idx + 1}. ${item.name.toLowerCase()}`;
+    row.innerHTML = `${idx + 1}. ${formattedName}`;
     row.appendChild(scoreElement);
     scoreElement.innerHTML = item.score;
     rankingContainer.appendChild(row);

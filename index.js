@@ -23,6 +23,12 @@ const inputNameElement = document.querySelector("#game_end input");
 let gameContainerHeight;
 let gameContainerWidth;
 
+// buttons
+const startButton = document.getElementById("start_game_btn");
+const leaderboardButton = document.getElementById("leaderboard_btn");
+const backToMenuButton = document.getElementById("back_to_menu");
+const submitButton = document.getElementById("submit_score");
+
 // leaderboard
 const renderLeaderboard = () => {
   const maxRankingsToShow = 10;
@@ -103,6 +109,9 @@ const postRanking = async (data) => {
     alert("Please input your name!");
     return;
   }
+  submitButton.disabled = true;
+  submitButton.innerHTML = "Loading . . .";
+
   const response = await fetch(API_ENDPOINT, {
     method: "POST",
     mode: "cors",
@@ -114,6 +123,10 @@ const postRanking = async (data) => {
   });
   const { message } = await response.json();
   alert(message);
+
+  submitButton.disabled = false;
+  submitButton.innerHTML = "Submit";
+
   if (response.status >= 200 < 300) {
     location.reload();
   }
@@ -138,11 +151,6 @@ const endGame = () => {
 };
 
 // button listeners
-const startButton = document.getElementById("start_game_btn");
-const leaderboardButton = document.getElementById("leaderboard_btn");
-const backToMenuButton = document.getElementById("back_to_menu");
-const submitButton = document.getElementById("submit_score");
-
 startButton.addEventListener("click", initializeGameState);
 leaderboardButton.addEventListener("click", viewLeaderboard);
 backToMenuButton.addEventListener("click", goBackToMenu);
